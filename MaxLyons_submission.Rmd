@@ -1,0 +1,53 @@
+---
+title: "Reproducible Research: Peer Assessment 1"
+author: Max Lyons
+date: 6/26/2016
+---
+Load ggplot2 for plotting, and dplyr for data wrangling
+```{r}
+library(ggplot2)
+library(dplyr)
+```
+
+## Loading and preprocessing the data
+First we will unzip the wearable technology data and load it into R
+```{r}
+unzip("activity.zip")
+activity <- read.csv("activity.csv",header=T,stringsAsFactors = FALSE)
+head(activity)
+```
+
+## What is mean total number of steps taken per day?
+To find the mean number of steps taken each day, we first need to create a 
+dataframe of steps by day
+```{r}
+day_activity <- activity %>% group_by(date) %>% 
+    summarise(steps = sum(steps, na.rm = TRUE))
+```
+We can then make a histogram of total steps taken each day
+```{r}
+steps_hist <- ggplot(day_activity, aes(x = steps)) + 
+    geom_histogram(binwidth = 1000)
+steps_hist <- steps_hist + scale_y_continuous("number of days",breaks=0:10)
+steps_hist <- steps_hist + 
+    labs(title = "Distribution of Total Steps Taken Each Day", x="total steps")
+steps_hist
+```
+And use the same dataframe to calculate the mean and median of total steps
+```{r}
+totalsteps_mean <- mean(day_activity$steps)
+totalsteps_median <- median(day_activity$steps)
+```
+Mean = `r totalsteps_mean`  
+Median = `r totalsteps_median`
+
+
+## What is the average daily activity pattern?
+
+
+
+## Imputing missing values
+
+
+
+## Are there differences in activity patterns between weekdays and weekends?
