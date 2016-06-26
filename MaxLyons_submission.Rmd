@@ -25,22 +25,22 @@ day_activity <- activity %>% group_by(date) %>%
     summarise(steps = sum(steps, na.rm = TRUE))
 ```
 We can then make a histogram of total steps taken each day
-```{r}
+```{r fig.height=6, fig.width=6}
 steps_hist <- ggplot(day_activity, aes(x = steps)) + 
     geom_histogram(binwidth = 1000)
 steps_hist <- steps_hist + scale_y_continuous("number of days",breaks=0:10)
 steps_hist <- steps_hist + 
     labs(title = "Distribution of Total Steps Taken Each Day", x="total steps")
 steps_hist
-```
+```  
+  
 And use the same dataframe to calculate the mean and median of total steps
 ```{r}
 totalsteps_mean <- mean(day_activity$steps)
 totalsteps_median <- median(day_activity$steps)
-```
+```  
 Mean = `r totalsteps_mean`  
 Median = `r totalsteps_median`
-
 
 ## What is the average daily activity pattern?
 
