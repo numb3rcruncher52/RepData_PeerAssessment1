@@ -43,8 +43,31 @@ Mean = `r totalsteps_mean`
 Median = `r totalsteps_median`
 
 ## What is the average daily activity pattern?
-
-
+To make a time series plot of the average number of steps taken across each 5
+second time interval, we first need to create a dataframe of average steps
+by time interval
+```{r}
+interval_activity <- activity %>% group_by(interval) %>%
+    summarise(average_steps = mean(steps, na.rm = TRUE))
+```
+And then plot the time series:
+```{r fig.width=8, fig.height=5}
+steps_ts <- ggplot(interval_activity, aes(x = interval, y = average_steps)) + 
+    geom_line()
+steps_ts <- steps_ts + labs(title="Average Steps by Five Second Time Interval",
+                            x = "five second time interval",
+                            y = "average steps")
+steps_ts
+```
+  
+From the plot we can see that the interval with the highest average number of
+steps is around 800, and we can use the dataframe to confirm:
+```{r}
+highest_average_interval <- interval_activity %>% top_n(1,average_steps)
+highest_average_interval
+```
+The time interval at `r highest_average_interval$interval` seconds has the 
+highest average number of steps at `r highest_average_interval$average_steps`
 
 ## Imputing missing values
 
